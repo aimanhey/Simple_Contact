@@ -1,4 +1,4 @@
-# ExpressJS_JWT_Bycrypt
+# ExpressJS_JWT_Bcrypt
 
 The example of secure backend programming.
 
