@@ -12,7 +12,7 @@ const ip ='0.0.0.0';
 
 
 
-const uri = process.env.ATLAS_URI;
+const uri = "mongodb://localhost:27017/lala";
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }
 );
 const connection = mongoose.connection;

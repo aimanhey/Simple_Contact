@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "start": "node run",
     "build": "ng build",
-    "heroku-postbuild": "ng build --prod" 
+    "heroku-postbuild": "ng build --prod"
   },
   "author": "",
   "license": "ISC",
