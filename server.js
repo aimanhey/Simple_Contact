@@ -21,7 +21,7 @@ connection.once('open', () => {
 })
 const user = require('./controllers/user');
 
-app.use('/users', user);
+app.use('/', user);
 
 app.listen(port, ip) ;
 console.log(`Server is running on port: ${port}`);
