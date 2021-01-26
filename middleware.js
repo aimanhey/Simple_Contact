@@ -4,7 +4,11 @@ import User from '../models/userModel.js'
 
 const protect = asyncHandler(async (req, res, next) => {
   let token
+  const tokenss = req.headers["x-auth-token"];
 
+  if(tokenss){
+      res.json({msg:tokenss});
+  }
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
