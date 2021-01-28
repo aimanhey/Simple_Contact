@@ -7,8 +7,15 @@ const userSchema = new Schema({
       type: String,
       minlength: 2
     },
-    phoneNumber: Number
- },{
+    phoneNumber: Number,
+    user:{
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'user'
+    },
+ },
+ 
+ {
     timestamps: true,
     
   });
