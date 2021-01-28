@@ -8,9 +8,9 @@ const protect = require('middleware.js');
 
 
   router.route('/addPost').post(protect,(req,res, next)=>{
-    const email = req.body.email;
+    const post = req.body.post;
    
-    const password = req.body.password;
+    const phoneNumber = req.body.phoneNo;
 
     
 
