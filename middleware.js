@@ -1,14 +1,10 @@
-import jwt from 'jsonwebtoken'
-import asyncHandler from 'express-async-handler'
-import User from '../models/userModel.js'
+const jwt =require('jsonwebtoken');
+const asyncHandler=require('express-async-handler')
+const User=require('./models/user.js')
 
 const protect = asyncHandler(async (req, res, next) => {
   let token
-  const tokenss = req.headers["x-auth-token"];
-
-  if(tokenss){
-      res.json({msg:tokenss});
-  }
+  
   if (
    tokenss &&
    tokenss.startsWith('Bearer')
@@ -36,4 +32,4 @@ const protect = asyncHandler(async (req, res, next) => {
 
 
 
-export { protect}
+module.exports = protect

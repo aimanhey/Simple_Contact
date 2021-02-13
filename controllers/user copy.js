@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Post = require('../models/post');
-const protect = require('middleware.js');
+const protect = require('../middleware.js');
 
 
 
@@ -29,6 +29,7 @@ const protect = require('middleware.js');
         });
 
         postDetails.save();
+        res.status(200).send({success: false, msg: 'Authentication failed. Wrong password.'});
    });
 
 

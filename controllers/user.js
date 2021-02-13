@@ -60,9 +60,7 @@ router.route('/').get((req, res) => {
 
     const tokenss = req.headers["x-auth-token"];
 
-    if(tokenss){
-        res.json({msg:tokenss});
-    }
+   
      User.findOne({email:req.body.email},(err,user)=>{
         if (err) throw err;
 
@@ -71,7 +69,7 @@ router.route('/').get((req, res) => {
     } else{
         user.comparePassword(req.body.password, function (err, isMatch) {
             if (isMatch && !err) {
-                jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+                jwt.sign({user}, 'secretkey', { expiresIn: '3000s' }, (err, token) => {
    
                   const so = res.status(200).header("x-auth-token", "Bearer "+ token).send({
                         token,

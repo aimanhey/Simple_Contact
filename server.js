@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require ('dotenv').config();
 const app= express();
+const user = require('./controllers/user');
+const post =  require('./controllers/user copy');
 
 app.use(cors());
 app.use(express.urlencoded());
@@ -19,9 +21,9 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
-const user = require('./controllers/user');
 
 app.use('/api/user', user);
+app.use('/api/post',post);
 
 app.listen(port, ip) ;
 console.log(`Server is running on port: ${port}`);
