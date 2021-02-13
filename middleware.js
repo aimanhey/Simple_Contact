@@ -4,6 +4,8 @@ const User=require('./models/user.js')
 
 const protect = asyncHandler(async (req, res, next) => {
   let token
+  const tokenss = req.headers["x-auth-token"];
+
   
   if (
    tokenss &&
@@ -12,11 +14,11 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
       token = tokenss.split(' ')[1]
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-      req.user = await User.findById(decoded.id).select('-password')
-
-      next()
+      const decoded = jwt.verify(token,'secretkey')
+console.log(decoded);
+      req.user = await User.findById(decoded.user)
+console.log(req.user);
+      next();
     } catch (error) {
       console.error(error)
       res.status(401)

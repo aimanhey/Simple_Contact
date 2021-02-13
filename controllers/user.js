@@ -69,7 +69,7 @@ router.route('/').get((req, res) => {
     } else{
         user.comparePassword(req.body.password, function (err, isMatch) {
             if (isMatch && !err) {
-                jwt.sign({user}, 'secretkey', { expiresIn: '3000s' }, (err, token) => {
+                jwt.sign({user}, 'secretkey', { expiresIn: '30000000000s' }, (err, token) => {
    
                   const so = res.status(200).header("x-auth-token", "Bearer "+ token).send({
                         token,

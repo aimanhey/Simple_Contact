@@ -9,7 +9,7 @@ const protect = require('../middleware.js');
 
   router.route('/addPost').post(protect,(req,res, next)=>{
     const post = req.body.post;
-    const id =  req.user._id;
+    const id =  req.user;
     const phoneNumber = req.body.phoneNo;
 
     
@@ -20,7 +20,7 @@ const protect = require('../middleware.js');
     }
    
 
-      
+      console.log("sfsdfs");
         // If no user, create and save it to database
         const postDetails = new Post({
             email: post,
