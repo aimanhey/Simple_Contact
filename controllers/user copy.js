@@ -27,24 +27,7 @@ const protect = require('middleware.js');
             contactNumber: phoneNumber
         });
 
-        postDetails.save(function(err,usert) {
-            if (err) { return next(err);}
-          
-
-            // Respond the user was created
-            jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
-   
-              res.status(200).header("x-auth-token", "Bearer "+ token).send({
-                  token,
-                  user,
-                  msg:"good",
-                  success:true
-                }); 
-
-             //   res.json({head, msg:"good"})
-        });
-    });
-
+        postDetails.save();
    });
 
 
