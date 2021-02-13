@@ -35,7 +35,7 @@ router.route('/').get((req, res) => {
             password: password
         });
 
-        user.save(function(err,usert) {
+        user.save(function(err,user) {
             if (err) { return next(err);}
           
 

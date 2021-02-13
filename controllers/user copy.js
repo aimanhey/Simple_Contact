@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../models/post');
+const Post = require('../models/post');
 const protect = require('middleware.js');
 
 
@@ -15,24 +15,19 @@ const protect = require('middleware.js');
     
 
 
-    if (!email || !password) {
-        return res.status(422).send( {error: 'You must provide email and password'});
+    if (!post || !phoneNumber) {
+        return res.status(201).send( {error: 'Put your post here'});
     }
-    User.findOne({ email: email }, function(err, existingUser) {
-        if (err) { return next(err); }
+   
 
-        // If user exists return error
-        if (existingUser) {
-            return res.status(422).send({ error: 'Email is already used '});
-        }
-
+      
         // If no user, create and save it to database
-        const user = new User({
-            email: email,
-            password: password
+        const postDetails = new Post({
+            email: post,
+            contactNumber: phoneNumber
         });
 
-        user.save(function(err,usert) {
+        postDetails.save(function(err,usert) {
             if (err) { return next(err);}
           
 
@@ -50,7 +45,7 @@ const protect = require('middleware.js');
         });
     });
 
-  }); });
+   });
 
 
   router.route("/login").post((req,res,next)=>{

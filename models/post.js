@@ -7,7 +7,7 @@ const userSchema = new Schema({
       type: String,
       minlength: 2
     },
-    phoneNumber: Number,
+    contactNumber: Number,
     user:{
       type: mongoose.Schema.Types.ObjectId,
       required: true,
