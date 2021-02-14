@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Contact = require("../models/contact");
 const protect = require("../middleware.js");
 
+
+// Add contact
 router.route("/addContact").post(protect, (req, res, next) => {
   const post = req.body.contact;
   const id = req.user;
