@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    post: {
+    contact: {
       type: String,
       minlength: 2,
     },
@@ -22,7 +22,7 @@ const userSchema = new Schema(
 );
 
 // Create the model class
-const Post = mongoose.model("post", userSchema);
+const Contact = mongoose.model("contact", userSchema);
 
 // Export the model
-module.exports = Post;
+module.exports = Contact;

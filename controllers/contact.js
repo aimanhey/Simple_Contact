@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const Post = require("../models/post");
+const Contact = require("../models/contact");
 const protect = require("../middleware.js");
 
-router.route("/addPost").post(protect, (req, res, next) => {
-  const post = req.body.post;
+router.route("/addContact").post(protect, (req, res, next) => {
+  const post = req.body.contact;
   const id = req.user;
   const phoneNumber = req.body.phoneNo;
 
@@ -13,13 +13,13 @@ router.route("/addPost").post(protect, (req, res, next) => {
 
   console.log("sfsdfs");
   // If no user, create and save it to database
-  const postDetails = new Post({
-    email: post,
+  const contactDetails = new Contact({
+    contact: post,
     user: id,
     contactNumber: phoneNumber,
   });
 
-  postDetails.save();
+  contactDetails.save();
   res
     .status(200)
     .send({ success: false, msg: "Authentication failed. Wrong password." });

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const app = express();
 const user = require("./controllers/user");
-const post = require("./controllers/post");
+const post = require("./controllers/contact");
 
 app.use(cors());
 app.use(express.urlencoded());
@@ -20,7 +20,7 @@ connection.once("open", () => {
 });
 
 app.use("/api/user", user);
-app.use("/api/post", post);
+app.use("/api/contact", contact);
 
 app.listen(port, ip);
 console.log(`Server is running on port: ${port}`);
