@@ -25,52 +25,6 @@ router.route("/addPost").post(protect, (req, res, next) => {
     .send({ success: false, msg: "Authentication failed. Wrong password." });
 });
 
-router.route("/login").post((req, res, next) => {
-  const tokenss = req.headers["x-auth-token"];
 
-  if (tokenss) {
-    res.json({ msg: tokenss });
-  }
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (err) throw err;
-
-    if (!user) {
-      res
-        .status(401)
-        .send({
-          success: false,
-          msg: "Authentication failed. User not found.",
-        });
-    } else {
-      user.comparePassword(req.body.password, function (err, isMatch) {
-        if (isMatch && !err) {
-          jwt.sign(
-            { user },
-            "secretkey",
-            { expiresIn: "30s" },
-            (err, token) => {
-              const so = res
-                .status(200)
-                .header("x-auth-token", "Bearer " + token)
-                .send({
-                  token,
-                  user,
-                  msg: "good",
-                  success: true,
-                });
-            }
-          );
-        } else {
-          res
-            .status(401)
-            .send({
-              success: false,
-              msg: "Authentication failed. Wrong password.",
-            });
-        }
-      });
-    }
-  });
-});
 
 module.exports = router;
