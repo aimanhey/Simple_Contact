@@ -14,7 +14,7 @@ router.route("/addContact").post(protect, (req, res, next) => {
   }
 
   console.log("sfsdfs");
-  // If no user, create and save it to database
+  // The way to apply information to Object
   const contactDetails = new Contact({
     contact: post,
     user: id,
