@@ -3,7 +3,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 
-router.route('/').get((req, res) => {
+router.route('/').get(protect,(req, res) => {
     User.find()
       .then(users => res.json(users))
       .catch(err => res.status(400).json('Error: ' + err));
@@ -14,9 +14,6 @@ router.route('/').get((req, res) => {
     const email = req.body.email;
    
     const password = req.body.password;
-
-    
-
 
     if (!email || !password) {
         return res.status(422).send( {error: 'You must provide email and password'});

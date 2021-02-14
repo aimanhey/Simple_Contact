@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 require ('dotenv').config();
 const app= express();
 const user = require('./controllers/user');
-const post =  require('./controllers/user copy');
+const post =  require('./controllers/post');
 
 app.use(cors());
 app.use(express.urlencoded());
