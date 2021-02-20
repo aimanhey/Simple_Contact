@@ -27,6 +27,22 @@ router.route("/addContact").post(protect, (req, res, next) => {
     .send({ success: false, msg: "Authentication failed. Wrong password." });
 });
 
+router.route("/:id").delete(protect, (req, res, next) => {
+  const post = req.params.id
+  
+  console.log("sbjjdbdaad");
+  const contact = await Contact.findById(post)
+
+  if (contact) {
+    await contact.remove()
+    res.json({ message: 'contact removed' })
+  } else {
+    res.status(404)
+    throw new Error('contact not found')
+  }
+ 
+  
+});
 
 
 module.exports = router;
