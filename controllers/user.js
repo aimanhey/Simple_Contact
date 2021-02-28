@@ -118,7 +118,7 @@ router.route("/updateUser").post(protect, (req, res) => {
         success: false,
         msg: "Authentication failed. User not found.",
       });
-    } else if (user || password) {
+    } else if (user && password) {
       user.password = password;
       // Save modified password
       user.save((err, jade) => {
@@ -144,6 +144,50 @@ router.route("/updateUser").post(protect, (req, res) => {
       res.status(200).send({ msg: "Kenapa tak update?" });
     }
   });
+});
+
+router.route("/updatesUser").post(protect, (req, res) => {
+  const id = req.user._id;
+  const password = req.body.password;
+
+  // Check if the requested user is existing in database
+  const user = User.findOne({ _id: id }) ;
+  
+  
+  
+    if (err) throw err;
+
+    if (!user) {
+      res.status(401).send({
+        success: false,
+        msg: "Authentication failed. User not found.",
+      });
+    } else if (user && password) {
+      user.password = password;
+      // Save modified password
+      user.save((err, jade) => {
+        console.log(jade);
+        jwt.sign(
+          { user },
+          "secretkey",
+          { expiresIn: "3000000s" },
+          (err, token) => {
+            const so = res
+              .status(200)
+              .header("x-auth-token", "Bearer " + token)
+              .send({
+                token,
+                user,
+                msg: "update",
+                success: true,
+              });
+          }
+        );
+      });
+    } else {
+      res.status(200).send({ msg: "Kenapa tak update?" });
+    }
+  
 });
 
 module.exports = router;

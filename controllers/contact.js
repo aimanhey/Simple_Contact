@@ -8,6 +8,7 @@ router.route("/addContact").post(protect, (req, res, next) => {
   const post = req.body.contact;
   const id = req.user;
   const phoneNumber = req.body.phoneNo;
+  const image = req.body.image;
 
   if (!post || !phoneNumber) {
     return res.status(201).send({ error: "Put your post here" });
@@ -19,6 +20,7 @@ router.route("/addContact").post(protect, (req, res, next) => {
     contact: post,
     user: id,
     contactNumber: phoneNumber,
+    image: image
   });
 
   contactDetails.save();
