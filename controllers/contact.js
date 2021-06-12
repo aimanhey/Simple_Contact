@@ -3,12 +3,13 @@ const Contact = require("../models/contact");
 const protect = require("../middleware.js");
 
 
+
 // Add contact
 router.route("/addContact").post(protect, (req, res, next) => {
   const post = req.body.contact;
   const id = req.user;
   const phoneNumber = req.body.phoneNo;
-  const image = req.body.image;
+  const image = req.image;
 
   if (!post || !phoneNumber) {
     return res.status(201).send({ error: "Put your post here" });
@@ -26,17 +27,17 @@ router.route("/addContact").post(protect, (req, res, next) => {
   contactDetails.save();
   res
     .status(200)
-    .send({ success: false, msg: "Authentication failed. Wrong password." });
+    .send({ success: true, msg: `The contact for ${post} has been saved!` });
 });
 
 router.route("/:id").delete(protect, (req, res, next) => {
   const post = req.params.id
   
   console.log("sbjjdbdaad");
-  const contact = await Contact.findById(post)
+  const contact = Contact.findById(post)
 
   if (contact) {
-    await contact.remove()
+    contact.remove()
     res.json({ message: 'contact removed' })
   } else {
     res.status(404)
@@ -46,5 +47,25 @@ router.route("/:id").delete(protect, (req, res, next) => {
   
 });
 
+router.route("/:id").put(protect, (req, res, next) => {
+  const post = req.params.id
+  
+  console.log("update");
+  const contact = Contact.findById(post)
 
+  if (contact) {
+    contact.contact=req.body.contact || contact.contact
+    contact.id=contact.id
+    contact.contactNumber=req.body.phoneNo ||  contact.contactNumber
+    contact.image=req.image
+
+    contact.save();
+    res.json({ message: 'contact updated' })
+  } else {
+    res.status(404)
+    throw new Error('contact not found')
+  }
+ 
+  
+});
 module.exports = router;

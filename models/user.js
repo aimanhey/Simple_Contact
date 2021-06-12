@@ -10,6 +10,13 @@ const userSchema = new Schema(
       unique: true,
       minlength: 3,
     },
+    firstName: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 3,
+    },
+    lastName: String,
     password: String,
   },
   {
@@ -41,7 +48,7 @@ userSchema.methods.comparePassword = function (candidatePassword, callback) {
     if (err) {
       return callback(err);
     }
-    
+
     callback(null, isMatch);
   });
 };

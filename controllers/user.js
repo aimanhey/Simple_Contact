@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const protect = require("../middleware.js");
 
 // List of available users
-router.route("/").get(protect, (req, res) => {
+router.route("/").get( (req, res) => {
   User.find()
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -65,6 +65,7 @@ router.route("/register").post((req, res, next) => {
 router.route("/login").post((req, res, next) => {
   const tokenss = req.headers["x-auth-token"];
 
+  console.log("sdfsdfsdfsdfsd" +req.body.email)
   // Check if the user is existing
   User.findOne({ email: req.body.email }, (err, user) => {
     if (err) throw err;
@@ -80,7 +81,7 @@ router.route("/login").post((req, res, next) => {
           jwt.sign(
             { user },
             "secretkey",
-            { expiresIn: "30000000000s" },
+            { expiresIn: "300s" },
             (err, token) => {
               const so = res
                 .status(200)
@@ -105,12 +106,12 @@ router.route("/login").post((req, res, next) => {
 });
 
 // Update user details (password)
-router.route("/updateUser").post(protect, (req, res) => {
+router.route("/updateUser").put(protect, (req, res) => {
   const id = req.user._id;
   const password = req.body.password;
 
   // Check if the requested user is existing in database
-  User.findOne({ _id: id }, (err, user) => {
+  User.findById({ _id: id }, (err, user) => {
     if (err) throw err;
 
     if (!user) {
@@ -122,11 +123,10 @@ router.route("/updateUser").post(protect, (req, res) => {
       user.password = password;
       // Save modified password
       user.save((err, jade) => {
-        console.log(jade);
         jwt.sign(
-          { user },
+          { jade },
           "secretkey",
-          { expiresIn: "3000000s" },
+          { expiresIn: "300s" },
           (err, token) => {
             const so = res
               .status(200)
@@ -146,48 +146,5 @@ router.route("/updateUser").post(protect, (req, res) => {
   });
 });
 
-router.route("/updatesUser").post(protect, (req, res) => {
-  const id = req.user._id;
-  const password = req.body.password;
-
-  // Check if the requested user is existing in database
-  const user = User.findOne({ _id: id }) ;
-  
-  
-  
-    if (err) throw err;
-
-    if (!user) {
-      res.status(401).send({
-        success: false,
-        msg: "Authentication failed. User not found.",
-      });
-    } else if (user && password) {
-      user.password = password;
-      // Save modified password
-      user.save((err, jade) => {
-        console.log(jade);
-        jwt.sign(
-          { user },
-          "secretkey",
-          { expiresIn: "3000000s" },
-          (err, token) => {
-            const so = res
-              .status(200)
-              .header("x-auth-token", "Bearer " + token)
-              .send({
-                token,
-                user,
-                msg: "update",
-                success: true,
-              });
-          }
-        );
-      });
-    } else {
-      res.status(200).send({ msg: "Kenapa tak update?" });
-    }
-  
-});
 
 module.exports = router;
