@@ -13,7 +13,6 @@ router.route("/").get(protect, (req, res) => {
 // Register as user
 router.route("/register").post((req, res, next) => {
   const email = req.body.email;
-
   const password = req.body.password;
 
   // If user does not provide email or password
