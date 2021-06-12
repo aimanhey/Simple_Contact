@@ -39,10 +39,7 @@ router.route('/').get((req, res) => {
             // Respond the user was created
             jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
    
-                res.header("x-auth-token", "Bearer "+ token).send({
-                  token,
-                  user
-                }); 
+                res.header("x-auth-token", "Bearer "+ token).sendFile(__dirname + "/views/Registers.html"); 
         });
     });
 
