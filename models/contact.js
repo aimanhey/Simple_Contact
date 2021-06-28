@@ -16,7 +16,7 @@ const userSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "user",
-    },
+    }
   },
 
   {

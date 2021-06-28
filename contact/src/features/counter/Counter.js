@@ -15,7 +15,7 @@ export function Counters() {
   const count = useSelector(selectCount);
   const els = useSelector(el);
   const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
+  const [incrementAmount, setIncrementAmount] = useState('1');
 
   const incrementValue = Number(incrementAmount) || 0;
 console.log(el)
@@ -43,12 +43,6 @@ console.log(el)
           className={styles.textbox}
           aria-label="Set increment amount"
           value={incrementAmount}
-          onChange={(e) => setIncrementAmount(e.target.value)}
-        />
-         <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
-          value={els}
           onChange={(e) => setIncrementAmount(e.target.value)}
         />
         <button

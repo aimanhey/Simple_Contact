@@ -1,3 +1,4 @@
+import React from 'react';
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -20,20 +21,19 @@ export const Carousell=()=>{
       ];
 
       return(
+        
         <Carousel
         NextIcon={<img alt="makan" src="https://icons.iconarchive.com/icons/praveen/minimal-outline/512/next-icon.png" style={{"width": "50px"}}/>}
         PrevIcon={<img alt="minum" src="http://random.com/prev" />}
         animation="slide"
         interval="1000"
         width="5000"
-       
-       
-        
-      >
+       >
         {items.map((item, i) => (
           <Item key={i} item={item} />
         ))}
       </Carousel>
+      
       )
 
 }

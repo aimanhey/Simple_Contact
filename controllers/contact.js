@@ -4,6 +4,15 @@ const protect = require("../middleware.js");
 
 
 
+router.route("/").get( (req, res) => {
+  console.log("ada baca")
+  Contact.find()
+    .then((contact) => res.json(contact))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+
+
 // Add contact
 router.route("/addContact").post(protect, (req, res, next) => {
   const post = req.body.contact;

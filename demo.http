@@ -1,8 +1,2 @@
-PUT    HTTP://localhost:5010/api/user/updateUser HTTP/1.1
-Content-Type:application/json
-x-auth-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVmZjkzMGRmYTgxZWExNTBjMGE1Mzk4NyIsImVtYWlsIjoiYWltYW4uYW5kZXJpbEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRVUUdiZ0I0aXBLdkh3d2Uub2VCTkNPN1ZnZ1ZMajRFLnROajhueU9PdGdqVHNOVEtSNU5heSIsImNyZWF0ZWRBdCI6IjIwMjEtMDEtMDlUMDQ6Mjg6MTYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDQtMTBUMDQ6MjI6NTMuNjE4WiIsIl9fdiI6MH0sImlhdCI6MTYxODAyODg1MywiZXhwIjoxNjE4MDI5MTUzfQ.RvvGQmPkwjKoVBgl0ksuvR6eqOH4F1fJFVznzlOyMlQ
-
-{
- 
-  "password":"12345"
-}
+GET     HTTP://localhost:5010/api/contact/ HTTP/1.1
+//Content-Type:application/json
