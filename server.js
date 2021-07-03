@@ -20,7 +20,7 @@ connection.once("open", () => {
 });
 
 app.use("/api/user", user);
-app.use("/api/contact", contact);
+//app.use("/api/contact", contact);
 
 app.listen(port, ip);
 console.log(`Server is running on port: ${port}`);
