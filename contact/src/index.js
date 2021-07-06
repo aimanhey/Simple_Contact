@@ -5,6 +5,7 @@ import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
+import 'bootstrap/dist/css/bootstrap.min.css';
 //import Container from "@material-ui/core/Container";
 //import Typography from "@material-ui/core/Typography";
 //import CssBaseline from "@material-ui/core/CssBaseline";

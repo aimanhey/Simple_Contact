@@ -11,18 +11,29 @@ router.route("/").get( (req, res) => {
 });
 
 // Register as user
-router.route("/register").post((req, res, next) => {
+router.route("/register").post(async(req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const filePicture = req.files.profilePicture;
 
+
+  uploadPath = __dirname + '/picture/' + filePicture.name;
+
+
+ await filePicture.mv(uploadPath, async function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+  });
   // If user does not provide email or password
   if (!email || !password) {
     return res
       .status(422)
       .send({ error: "You must provide email and password" });
   }
-  User.findOne({ email: email }, function (err, existingUser) {
+ await User.findOne({ email: email }, async function (err, existingUser) {
     if (err) {
       return next(err);
     }
@@ -36,9 +47,12 @@ router.route("/register").post((req, res, next) => {
     const user = new User({
       email: email,
       password: password,
+      lastName: lastName,
+      firstName: firstName,
+      profilePicture: uploadPath
     });
     // Save user details
-    user.save(function (err, user) {
+  await  user.save(function (err, user) {
       if (err) {
         return next(err);
       }

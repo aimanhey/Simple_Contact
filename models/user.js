@@ -18,6 +18,7 @@ const userSchema = new Schema(
     },
     lastName: String,
     password: String,
+    profilePicture: String,
   },
   {
     timestamps: true,

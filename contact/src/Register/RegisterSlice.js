@@ -4,7 +4,8 @@ const axios = require('axios');
 
 
 export const createUser = createAsyncThunk(
- 'contact/createUser',   async ()=>{
+ 'contact/createUser',   async (data)=>{
+     console.log(data);
      const response  = await axios.post('http://localhost:5010/api/contact/');
     
     console.log(response.data);
