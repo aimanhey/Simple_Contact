@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import logo from "../logo.svg";
 import { Counters } from "../features/counter/Counter";
 import "../App.css";
-import { Anyway, Anyways } from "./CarouselComponent";
-import Grid from "@material-ui/core/Grid";
-import { Card } from "@material-ui/core";
+//import { Anyway, Anyways } from "./CarouselComponent";
+//import Grid from "@material-ui/core/Grid";
+//import { Card } from "@material-ui/core";
 
 //import Button from '@material-ui/core/Button';
 //import { Card, CardHeader, CardActions } from '@material-ui/core';
 
 export const Component1 = ({location,history}) => {
+  /*
   const [header, setHeader] = useState("#c0392b");
 
   const listenScrollEvent = (event) => {
@@ -25,7 +26,7 @@ export const Component1 = ({location,history}) => {
 
     return () => window.removeEventListener("scroll", listenScrollEvent);
   }, []);
-
+*/
   return (
     <React.Fragment>
     {/*  <Grid

@@ -36,7 +36,10 @@ export const Register = () => {
   const data = useSelector((state) => state.user.data);
   const [selectedFiles, setSelectedFiles] = useState(undefined);
 
-  //useEffect(() => {setRegister(initiatial)}, [initiatial[]]);
+  useEffect(() => {if(data){
+    history.push('/login');
+  }}, [data, history]);
+
   const emailInserted = (event) => {
     setEmail(event.target.value);
     console.log(event.target.value);
@@ -61,7 +64,7 @@ export const Register = () => {
     console.log(event.target.files + "jsjsj");
   };
 
-  const registerData = () => {
+  const registerData = async() =>  {
     console.log(email +"tengok email")
     const insertData = {
       email: email,
@@ -72,13 +75,22 @@ export const Register = () => {
     };
     //setRegister(insertData);
 
-    dispatch(createUser(insertData));
-    if (data) {
-      console.log("djkadha");
-    } else {
-      console.log("ididid");
-      history.push('/login');
+     dispatch(createUser(insertData),async (result)=>{
+
+      console.log(result);
+      if (data) {
+        console.log("djkadha");
+        history.push('/login');
+      } else {
+        console.log("ididid");
+        console.log(data +'dda')
+        
+       
+      }
     }
+
+    );
+  //  history.push('login');
   };
 
   return (
@@ -142,6 +154,7 @@ export const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChange={passwordInserted}
+                  autoComplete="On"
                 />
               </Form.Group>
 

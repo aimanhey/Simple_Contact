@@ -12,11 +12,14 @@ router.route("/").get( (req, res) => {
 
 // Register as user
 router.route("/register").post(async(req, res, next) => {
+  console.log(req.body.email);
   const email = req.body.email;
   const password = req.body.password;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const filePicture = req.files.profilePicture;
+  console.log("masuk tak?");
+  console.log(filePicture +"ff");
 
 
   uploadPath = __dirname + '/picture/' + filePicture.name;
@@ -40,7 +43,7 @@ router.route("/register").post(async(req, res, next) => {
 
     // If user exists return error
     if (existingUser) {
-      return res.status(422).send({ error: "Email is already used " });
+      return res.status(422).send({ error: "Email is already used "});
     }
 
     // If no user, create and save it to database
