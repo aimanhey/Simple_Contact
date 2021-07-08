@@ -1,0 +1,8 @@
+UPDATE `TechnicianClockIn` SET `Availability`=TRUE,`Modulus`= (SELECT MAX(b.Modulus) FROM TechnicianClockIn b) WHERE Technician='Zharif'
+
+UPDATE `TechnicianClockIn` AS t1 INNER JOIN (SELECT MAX(Modulus) from TechnicianClockIn ) as t2 SET `Availability`=true,`Modulus`=t2 WHERE `Technician`='manan'
+
+
+UPDATE `TechnicianClockIn` AS t1 INNER JOIN (SELECT MAX(Modulus)+1 AS AYAM from TechnicianClockIn ) as t2 SET `Availability`=true,`Modulus`=t2.AYAM, `TimeIN`=10:47 WHERE `Technician`='manan'
+
+SELECT TechnicianClockIn.* FROM TechnicianClockIn RIGHT JOIN user ON TechnicianClockIn.Technician = user.name WHERE `Modulus`=1/(SELECT MAX(Modulus) FROM TechnicianClockIn)

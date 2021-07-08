@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   decrement,
@@ -9,13 +9,22 @@ import {
   selectCount,
 } from './counterSlice';
 import styles from './Counter.module.css';
+import { useHistory } from "react-router-dom";
 
 export function Counter() {
   const count = useSelector(selectCount);
   const dispatch = useDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
+  let history = useHistory();
 
   const incrementValue = Number(incrementAmount) || 0;
+
+  useEffect(() => {
+    const checkUser=localStorage.getItem('user');
+    console.log(checkUser.toString());
+  
+   
+  }, [history])
 
   return (
     <div>
