@@ -1,7 +1,8 @@
+// eslint-disable-next-line jsx-a11y/href-no-hash
 import React from "react";
 import "./App.css";
 import { Component1 } from "./Component/Component1";
-import { Anyways } from "./Component/CarouselComponent";
+//import { Anyways } from "./Component/CarouselComponent";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Contact } from "./contacts/Contact";
 import { Register} from "./Register/Register";
