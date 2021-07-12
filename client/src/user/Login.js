@@ -9,6 +9,7 @@ import "../App.css";
 import { useSpring, animated } from "react-spring";
 import { loginUser } from "./LoginSlice";
 import { useHistory } from "react-router-dom";
+import { contactGet } from "../contact/ContactSlice";
 
 //import { CSSTransitionGroup } from 'react-transition-group';
 //import { fetchContactById, status } from "./ContactSlice";
@@ -33,27 +34,37 @@ export const Login = () => {
     lastname: "",
     profilePicture: "",
   };
-  
+
   const [email, setEmail] = useState("");
-  
+
   const [password, setPassword] = useState("");
   //const token = useSelector((state) => state.user.token);
   const data = useSelector((state) => state.userLogin.data);
   const status = useSelector((state) => state.userLogin.status);
+  const statusC = useSelector((state) => state.contact.status);
   const [notify, setNotify] = useState("");
-
 
   useEffect(() => {
     console.log(status);
     console.log(data);
     if (status === "success") {
-        localStorage.setItem('user', data.token)
-     history.push("/");
+      localStorage.setItem("user", JSON.stringify(data));
+      history.push("/");
+    } else if (localStorage.getItem("user")) {
+      dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+      console.log(JSON.parse(localStorage.getItem("user")));
+      if (statusC === "success") {
+        console.log("masuk?");
+        history.push("/");
+      } else {
+        // localStorage.removeItem("user");
+      }
     } else if (status === "fail") {
       setNotify("You may put wrong input");
     } else {
+      localStorage.removeItem("user");
     }
-  }, [history, data, status]);
+  }, [history, data, status, dispatch, statusC]);
 
   const emailInserted = (event) => {
     setEmail(event.target.value);
@@ -64,7 +75,6 @@ export const Login = () => {
     setPassword(event.target.value);
     console.log(event.target.value);
   };
-
 
   const registerData = async (e) => {
     e.preventDefault();
@@ -114,8 +124,8 @@ export const Login = () => {
             display: "inline",
             boxShadow: "5px 5px 5px 5px #aaaaaa",
             borderRadius: "15px",
-            borderColor:"black",
-            borderWidth:"3px"
+            borderColor: "black",
+            borderWidth: "3px",
           }}
         >
           <animated.div style={propsHeader}>
@@ -141,11 +151,8 @@ export const Login = () => {
                     value={email}
                     onChange={emailInserted}
                   />
-                  <Form.Text className="text-muted">
-                  </Form.Text>
+                  <Form.Text className="text-muted"></Form.Text>
                 </Form.Group>
-              
-               
 
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
@@ -158,7 +165,7 @@ export const Login = () => {
                   />
                 </Form.Group>
 
-               <div style={{height:30}}></div>
+                <div style={{ height: 30 }}></div>
                 <Button variant="primary" type="submit">
                   Submit
                 </Button>

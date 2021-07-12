@@ -5,16 +5,16 @@ const axios = require('axios');
 
 
 
-export const loginUser = createAsyncThunk(
- 'user/loginUser',  async (data)=>{
-     console.log(data);
+export const contactGet = createAsyncThunk(
+ 'contact/contactGet',  async (data)=>{
+     console.log(data.token);
     
-    const response= await  axios.post(
-        "http://localhost:5010/api/user/login",
-        data,
+    const response= await  axios.get(
+        "HTTP://localhost:5010/api/contact/listAll",
         {
           headers: {
             "Content-Type": "application/json",
+            "x-auth-token": "Bearer " +data.token
           },
         })
         return response.data;
@@ -22,23 +22,23 @@ export const loginUser = createAsyncThunk(
  }
 )
 
-export const userLogin = createSlice({
-    name:'userLogin',
+export const contact = createSlice({
+    name:'contact',
     initialState: {
         data: null,
         status:'idle'
     },
     reducers:{},
     extraReducers:{
-        [loginUser.pending]: (state,action) =>{
+        [contactGet.pending]: (state,action) =>{
             state.status='loading'
         },
-        [loginUser.fulfilled]: (state,action) =>{
-            state.data=  action.payload;
+        [contactGet.fulfilled]: (state,action) =>{
+            state.data= action.payload;
             state.status='success'
           //  state.token='Bearer ' +action.payload.token;
         },
-        [loginUser.rejected]: (state,action) =>{
+        [contactGet.rejected]: (state,action) =>{
             state.data=action.error;
             state.status='fail'
         }
@@ -49,4 +49,4 @@ export const userLogin = createSlice({
 
 //export const status = (state) =>state.user.status;
 //export const contact = (state) => state.contact;
-export default userLogin.reducer;
+export default contact.reducer;

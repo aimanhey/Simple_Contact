@@ -2,16 +2,20 @@ const router = require("express").Router();
 const Contact = require("../models/contact");
 const protect = require("../middleware.js");
 
-
-
-router.route("/").get( (req, res) => {
-  console.log("ada baca")
+router.route("/").get((req, res) => {
+  console.log("ada baca");
   Contact.find()
     .then((contact) => res.json(contact))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/listAll").get(protect, (req, res, next) => {
+  const users = req.user;
 
+  Contact.find(users)
+    .then((contact) => res.json(contact))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 
 // Add contact
 router.route("/addContact").post(protect, (req, res, next) => {
@@ -30,7 +34,7 @@ router.route("/addContact").post(protect, (req, res, next) => {
     contact: post,
     user: id,
     contactNumber: phoneNumber,
-    image: image
+    image: image,
   });
 
   contactDetails.save();
@@ -40,41 +44,37 @@ router.route("/addContact").post(protect, (req, res, next) => {
 });
 
 router.route("/:id").delete(protect, (req, res, next) => {
-  const post = req.params.id
-  
+  const post = req.params.id;
+
   console.log("sbjjdbdaad");
-  const contact = Contact.findById(post)
+  const contact = Contact.findById(post);
 
   if (contact) {
-    contact.remove()
-    res.json({ message: 'contact removed' })
+    contact.remove();
+    res.json({ message: "contact removed" });
   } else {
-    res.status(404)
-    throw new Error('contact not found')
+    res.status(404);
+    throw new Error("contact not found");
   }
- 
-  
 });
 
 router.route("/:id").put(protect, (req, res, next) => {
-  const post = req.params.id
-  
+  const post = req.params.id;
+
   console.log("update");
-  const contact = Contact.findById(post)
+  const contact = Contact.findById(post);
 
   if (contact) {
-    contact.contact=req.body.contact || contact.contact
-    contact.id=contact.id
-    contact.contactNumber=req.body.phoneNo ||  contact.contactNumber
-    contact.image=req.image
+    contact.contact = req.body.contact || contact.contact;
+    contact.id = contact.id;
+    contact.contactNumber = req.body.phoneNo || contact.contactNumber;
+    contact.image = req.image;
 
     contact.save();
-    res.json({ message: 'contact updated' })
+    res.json({ message: "contact updated" });
   } else {
-    res.status(404)
-    throw new Error('contact not found')
+    res.status(404);
+    throw new Error("contact not found");
   }
- 
-  
 });
 module.exports = router;

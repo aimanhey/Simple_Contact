@@ -1,2 +1,13 @@
-GET     HTTP://localhost:5010/api/contact/ HTTP/1.1
-//Content-Type:application/json
+GET     HTTP://localhost:5010/api/contact/listAll HTTP/1.1
+Content-Type:application/json
+x-auth-token:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwZTY3MzY3MjA2N2VhNjk4NGZjZjViZiIsImVtYWlsIjoicGFzc3dvcmRAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkdE9RLzdRcjBLTVY5Rms2ZERRNTBKT0s0eUlvMThBV2xQdzNuUnRDcllNcnptM053LlFGbXEiLCJsYXN0TmFtZSI6InBhc3N3b3JkIiwiZmlyc3ROYW1lIjoicGFzc3dvcmQiLCJwcm9maWxlUGljdHVyZSI6IkM6XFxVc2Vyc1xcQWNlclxcRG9jdW1lbnRzXFxHaXRIdWJcXEV4cHJlc3NKU19KV1RfQmNyeXB0XFxjb250cm9sbGVycy9waWN0dXJlL0F1dG9Bc3NpZ24uanMiLCJjcmVhdGVkQXQiOiIyMDIxLTA3LTA4VDAzOjM5OjE5LjQyMVoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA3LTA4VDAzOjM5OjE5LjQyMVoiLCJfX3YiOjB9LCJpYXQiOjE2MjYwODU3NzAsImV4cCI6MTYyNjA4NjA3MH0.tySqPBh4dRMRKhsllFsqx4-Zmg4Md3fFlsRhCiqwXk8
+
+
+###
+POST    HTTP://localhost:5010/api/user/login
+Content-Type:application/json
+
+{
+    "email":"password@gmail.com",
+    "password":"password"
+}

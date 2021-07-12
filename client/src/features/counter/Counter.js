@@ -21,7 +21,9 @@ export function Counter() {
 
   useEffect(() => {
     const checkUser=localStorage.getItem('user');
-    console.log(checkUser.toString());
+    if(!checkUser){
+      history.push("/login");
+    }
   
    
   }, [history])
