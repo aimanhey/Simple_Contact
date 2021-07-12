@@ -1,6 +1,4 @@
-# ExpressJS_API_CRUD
-
-THIS IS ONE OF THE EXAMPLE OF WHAT BACKEND CODE SHOULD LOOKS LIKE. THIS REPOSITORY COMPRISES THE CRUD FUNCTION ACCOMPANIED WITH AUTHENTICATION AND JWT.
-
+# Simple_Contact
+The repo that contains code that comprises axios, jwt, react, redux-toolkit, expressjs, mongoose, react-boostrap, bcrypt
 
 
