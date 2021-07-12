@@ -54,7 +54,6 @@ export const Login = () => {
       dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
       console.log(JSON.parse(localStorage.getItem("user")));
       if (statusC === "success") {
-        console.log("masuk?");
         history.push("/");
       } else {
         // localStorage.removeItem("user");
