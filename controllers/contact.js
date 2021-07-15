@@ -12,7 +12,7 @@ router.route("/").get((req, res) => {
 router.route("/listAll").get(protect, (req, res, next) => {
   const users = req.user;
 
-  Contact.find(users)
+  Contact.find({user:users})
     .then((contact) => res.json(contact))
     .catch((err) => res.status(400).json("Error: " + err));
 });

@@ -25,7 +25,7 @@ export const contactGet = createAsyncThunk(
 export const contact = createSlice({
     name:'contact',
     initialState: {
-        data: null,
+        data: [],
         status:'idle'
     },
     reducers:{},

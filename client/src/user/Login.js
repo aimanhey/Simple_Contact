@@ -93,7 +93,7 @@ export const Login = () => {
   };
 
   return (
-    <body
+    <div
       style={{
         overflow: "auto",
         margin: "auto",
@@ -173,6 +173,6 @@ export const Login = () => {
           </animated.div>
         </div>
       )}
-    </body>
+    </div>
   );
 };
