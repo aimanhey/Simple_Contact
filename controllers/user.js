@@ -98,7 +98,7 @@ router.route("/login").post((req, res, next) => {
           jwt.sign(
             { user },
             "secretkey",
-            { expiresIn: "300s" },
+            { expiresIn: "30000s" },
             (err, token) => {
               const so = res
                 .status(200)

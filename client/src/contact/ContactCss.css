@@ -1,0 +1,33 @@
+.bodi{
+    height: 100%;
+    text-decoration-color: white;
+    background-color: whitesmoke;
+}
+
+
+
+
+.jaditak{
+    animation: manyak  2s  ease-in;
+}
+
+@keyframes manyak {
+    0% {
+        opacity: 0;
+    }
+}
+
+.utah{
+        animation: naik 1s ;
+      
+    
+}
+
+@keyframes naik {
+    0%   {transform:translateY(200px);}
+   
+    100% {transform:translateY(0px);}
+}
+
+
+  

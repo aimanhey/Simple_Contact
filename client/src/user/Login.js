@@ -126,22 +126,24 @@ export const Login = () => {
             borderColor: "black",
             borderWidth: "3px",
           }}
+          className="mx-auto"
         >
           <animated.div style={propsHeader}>
-            <h1 style={{ textAlign: "center" }}>REGISTER</h1>
-
+            <div className="mt-2">
+            <h1 style={{ textAlign: "center" }}>Login</h1>
+            </div>
             {notify ? notify : null}
           </animated.div>
 
           <animated.div style={propsform}>
             <div
               style={{
-                padding: "25px",
+                paddingBottom: "25px",
                 opacity: 1,
                 transition: "width 0.5s, height 0.5s, opacity 0.5s 0.5s",
               }}
             >
-              <Form onSubmit={registerData}>
+              <Form onSubmit={registerData} className="px-2">
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
