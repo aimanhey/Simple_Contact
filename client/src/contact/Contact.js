@@ -23,6 +23,8 @@ export function Contact() {
   const dispatch = useDispatch();
   const [lists, setList] = useState([]);
   const [incrementAmount, setIncrementAmount] = useState("2");
+  const [header, setHeader] = useState(false);
+
   let history = useHistory();
 
   const incrementValue = Number(incrementAmount) || 0;
@@ -44,9 +46,23 @@ export function Contact() {
         localStorage.removeItem("user");
         history.push("/login");
       }
+     
+
     }
+
   }, [dispatch, history, list, lists, status]);
 
+  const listenScrollEvent = (event) => {
+    if (window.scrollY < 2) {
+      setHeader(false);
+    } else if (window.scrollY > 10) {
+      setHeader(true);
+    }
+  };
+
+  window.addEventListener("scroll", listenScrollEvent);
+
+  
   const Senarai = (props) => {
     return (
       <div
@@ -74,14 +90,32 @@ export function Contact() {
     });
   //return  <div>saya</div>
 
+/*
+  const registerData = async (e) => {
+    e.preventDefault();
+    console.log(email + "tengok email");
+    let formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    const insertData = {
+      email: email,
+      password: password,
+    };
+    // setRegister(insertData);
+    console.log(insertData + "ssh");
+    await dispatch(loginUser(formData));
+    console.log(data);
+    console.log("dfadfs");
+  };
+*/
   return lists ? (
-    <Div100vh>
+    <Div100vh >
     <div className="bodi">
-    <Navbar bg="light" expand="lg">
+    <Navbar  expand="lg" sticky="top" className={header ?  'navbar2 active' :'navbar2'}>
   <Container>
     <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
+    <Navbar.Collapse id="navbarScroll">
       <Nav className="me-auto">
         <Nav.Link href="#home">Home</Nav.Link>
         <Nav.Link href="#link">Link</Nav.Link>
@@ -96,6 +130,7 @@ export function Contact() {
     </Navbar.Collapse>
   </Container>
 </Navbar>
+
     <div className="container color">
       <div className="jaditak">
         <div className="d-flex justify-content-center">
@@ -111,7 +146,7 @@ export function Contact() {
       </div>
       <div className="utah">
         <div className=" mt-3 mx-5">
-          <Form>
+          <Form  >
             <Form.Group className="mb-3 " controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" />
@@ -130,8 +165,11 @@ export function Contact() {
           </Form>
         </div>
       </div>
+     
     </div>
     </div>
+
+   
     </Div100vh>
   ) : (
     ((<div>makan</div>),

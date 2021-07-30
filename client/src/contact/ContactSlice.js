@@ -22,6 +22,25 @@ export const contactGet = createAsyncThunk(
  }
 )
 
+export const contactAdd = createAsyncThunk(
+    'contact/contactAdd',  async (data)=>{
+       // console.log(data.token);
+       
+       const response= await  axios.get(
+           "HTTP://localhost:5010/api/contact/addContact",
+           data,
+           {
+             headers: {
+               "Content-Type": "application/json",
+               "x-auth-token": "Bearer " +data.token
+             },
+           })
+           return response.data;
+       
+    }
+   )
+   
+
 export const contact = createSlice({
     name:'contact',
     initialState: {
