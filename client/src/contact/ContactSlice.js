@@ -45,9 +45,16 @@ export const contact = createSlice({
     name:'contact',
     initialState: {
         data: [],
-        status:'idle'
+        status:'idle',
+        statusAdd:'idle',
+        dataAdd:[],
+        dataDelete:null
     },
-    reducers:{},
+    reducers:{
+        storeToDelete: (state,action)=>{
+            state.dataDelete=action.payload;
+        }
+    },
     extraReducers:{
         [contactGet.pending]: (state,action) =>{
             state.status='loading'
@@ -60,12 +67,25 @@ export const contact = createSlice({
         [contactGet.rejected]: (state,action) =>{
             state.data=action.error;
             state.status='fail'
+        },
+        [contactAdd.pending]: (state,action) =>{
+            state.statusAdd='loading'
+        },
+        [contactAdd.fulfilled]: (state,action) =>{
+            state.dataAdd= action.payload;
+            state.statusAdd='success'
+          //  state.token='Bearer ' +action.payload.token;
+        },
+        [contactAdd.rejected]: (state,action) =>{
+            state.dataAdd=action.error;
+            state.statusAdd='fail'
         }
+
 
 
     }
 })
-
+export const {storeToDelete}=contact.actions;
 //export const status = (state) =>state.user.status;
 //export const contact = (state) => state.contact;
 export default contact.reducer;
