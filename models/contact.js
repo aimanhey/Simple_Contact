@@ -8,9 +8,6 @@ const userSchema = new Schema(
       type: String,
       minlength: 2,
     },
-    image:{
-      type: String
-    },
     contactNumber: Number,
     user: {
       type: mongoose.Schema.Types.ObjectId,

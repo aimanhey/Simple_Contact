@@ -23,10 +23,11 @@ export const contactGet = createAsyncThunk(
 )
 
 export const contactAdd = createAsyncThunk(
-    'contact/contactAdd',  async (data)=>{
-       // console.log(data.token);
+    'contact/contactAdd',  async (data,datas)=>{
+        console.log(JSON.stringify(data));
+        console.log(datas.token);
        
-       const response= await  axios.get(
+       const response= await  axios.post(
            "HTTP://localhost:5010/api/contact/addContact",
            data,
            {

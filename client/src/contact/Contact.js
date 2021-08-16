@@ -10,7 +10,7 @@ import {
 } from "../features/counter/counterSlice";
 import styles from "../features/counter/Counter.module.css";
 import { useHistory } from "react-router-dom";
-import { contactGet, storeToDelete } from "./ContactSlice";
+import { contactGet, contactAdd } from "./ContactSlice";
 import {
   Form,
   Button,
@@ -27,12 +27,14 @@ export function Contact() {
   const count = useSelector(selectCount);
   const list = useSelector((state) => state.contact.data);
   const status = useSelector((state) => state.contact.status);
+  const statusAdd = useSelector((state) => state.contact.statusAdd);
   const deleted = useSelector((state) => state.contact.dataDelete);
   const dispatch = useDispatch();
   const [lists, setList] = useState([]);
   const [card, setCard] = useState(false);
   const [select, setSelect] = useState("");
   const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
   const [selected, setSelected] = useState(null);
   //const [selected, setSelected] = useState(0);
   const [incrementAmount, setIncrementAmount] = useState("2");
@@ -60,7 +62,11 @@ export function Contact() {
         history.push("/login");
       }
     }
-  }, [dispatch, history, list, lists, status]);
+
+    if(statusAdd==="success"){
+      setList(list);
+    }
+  }, [dispatch, history, list, lists, status, statusAdd]);
 
 
   const listenScrollEvent = (event) => {
@@ -100,6 +106,7 @@ export function Contact() {
         onClick={() =>
            props.hooker()
         }
+        draggable
       >
         <div className="card-body">
           <h5 className="card-title" style={{ textAlign: "center" }}>
@@ -131,24 +138,41 @@ export function Contact() {
     });
   //return  <div>saya</div>
 
-  /*
-  const registerData = async (e) => {
+
+  const nameInserted = (event) => {
+    setName(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const numberInserted = (event) => {
+    setNumber(event.target.value);
+    console.log(event.target.value);
+  };
+  
+  const sendData = async (e) => {
     e.preventDefault();
-    console.log(email + "tengok email");
+   // console.log(email + "tengok email");
     let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    formData.append("contact", name);
+    formData.append("phoneNo", number);
+    const gilq=JSON.parse(localStorage.getItem("user"));
+    console.log(gilq.token);
     const insertData = {
-      email: email,
-      password: password,
+      contact: name,
+      phoneNo: number,
+      token:gilq.token
     };
     // setRegister(insertData);
+    console.log(name);
+    console.log(number);
     console.log(insertData + "ssh");
-    await dispatch(loginUser(formData));
-    console.log(data);
+   
+    await dispatch(contactAdd(insertData,JSON.parse(localStorage.getItem("user"))));
+   // console.log(data);
+   window.location.reload(true);
     console.log("dfadfs");
   };
-*/
+
   return lists ? (
     <Div100vh>
       <div className="bodi">
@@ -203,27 +227,30 @@ export function Contact() {
               <div className="col-sm"></div>
               <div className="col-sm-8">
                 <div className=" mt-3 mx-5">
-                  <Form>
+                  <Form onSubmit={sendData}>
                     <Form.Group className="mb-3 ">
                       <Form.Label>Contact Name</Form.Label>
                       <Form.Control
-                        type="email"
+                        type="text"
                         placeholder="Enter Name"
                         value={name}
+                        onChange={nameInserted}
                       />
                     </Form.Group>
 
                     <Form.Group className="mb-3 ">
                       <Form.Label>Contact Number</Form.Label>
                       <Form.Control
-                        type="password"
+                        type="text"
                         placeholder="Enter Number"
+                        value={number}
+                        onChange={numberInserted}
                       />
                     </Form.Group>
 
                     <div className="d-flex justify-content-end">
                       <Button variant="primary" type="submit" className="mx-5">
-                        Submit
+                     {  select ?   "Update": "Submit"}
                       </Button>
                     </div>
                   </Form>

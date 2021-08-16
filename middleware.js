@@ -5,7 +5,7 @@ const User = require("./models/user.js");
 const protect = asyncHandler(async (req, res, next) => {
   let token;
   const tokenss = req.headers["x-auth-token"];
-
+console.log(tokenss)
   if (tokenss && tokenss.startsWith("Bearer")) {
     try {
       token = tokenss.split(" ")[1];
