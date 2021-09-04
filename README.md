@@ -6,7 +6,7 @@ The repo that contains code that comprises axios, jwt, react, redux-toolkit, exp
 
 ## Overview
 
-The basic application tha CRUD implemented within it, which you may __Register__ , __Login__ , __add contacts__ , __update contacts__  and __delete contacts__
+The basic application tha CRUD implemented within it, which you may __register__ , __login__ , __add contacts__ , __update contacts__  and __delete contacts__ . It was built in powerful backend framework and awesome frontend library.
 
 
 
