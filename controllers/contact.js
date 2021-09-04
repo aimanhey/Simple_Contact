@@ -12,7 +12,7 @@ router.route("/").get((req, res) => {
 router.route("/listAll").get(protect, (req, res, next) => {
   const users = req.user;
 
-  Contact.find({user:users})
+  Contact.find({ user: users })
     .then((contact) => res.json(contact))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -22,7 +22,7 @@ router.route("/addContact").post(protect, (req, res, next) => {
   const post = req.body.contact;
   const id = req.user;
   const phoneNumber = req.body.phoneNo;
- // const image = req.image;
+  // const image = req.image;
 
   if (!post || !phoneNumber) {
     return res.status(201).send({ error: "Put your post here" });
@@ -33,13 +33,18 @@ router.route("/addContact").post(protect, (req, res, next) => {
   const contactDetails = new Contact({
     contact: post,
     user: id,
-    contactNumber: phoneNumber
+    contactNumber: phoneNumber,
   });
 
-  contactDetails.save();
-  res
-    .status(200)
-    .send({ success: true, msg: `The contact for ${post} has been saved!` });
+  contactDetails.save((err, user) => {
+    if (err) {
+      return res.status(401).send({ error: "Put your post here" });
+    }
+
+    res
+      .status(200)
+      .send({ success: true, msg: `The contact for ${post} has been saved!` });
+  });
 });
 
 router.route("/:id").delete(protect, (req, res, next) => {
@@ -61,19 +66,31 @@ router.route("/:id").put(protect, (req, res, next) => {
   const post = req.params.id;
 
   console.log("update");
-  const contact = Contact.findById(post);
-
-  if (contact) {
-    contact.contact = req.body.contact || contact.contact;
-    contact.id = contact.id;
-    contact.contactNumber = req.body.phoneNo || contact.contactNumber;
-    contact.image = req.image;
-
+  Contact.findById({ _id: post }, (err, contact) => {
+    if (contact) {
+      contact.contact = req.body.contact || contact.contact;
+      contact.id = contact.id;
+      contact.contactNumber = req.body.phoneNo || contact.contactNumber;
+      // contact.image = req.image;
+      /*
     contact.save();
     res.json({ message: "contact updated" });
   } else {
     res.status(404);
     throw new Error("contact not found");
-  }
+  }*/
+
+      contact.save((err, user) => {
+        if (err) {
+          return res.status(401).send({ error: "Something wrong" });
+        }
+
+        res.status(200).send({
+          success: true,
+          msg: `The contact modify for ${post} has been saved!`,
+        });
+      });
+    }
+  });
 });
 module.exports = router;

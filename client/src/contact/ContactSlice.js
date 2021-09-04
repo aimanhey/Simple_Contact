@@ -40,6 +40,25 @@ export const contactAdd = createAsyncThunk(
        
     }
    )
+
+   export const contactUpdate = createAsyncThunk(
+    'contact/contactUpdate',  async (data,datas)=>{
+        console.log(JSON.stringify(data));
+        console.log(datas.token);
+       
+       const response= await  axios.put(
+           `HTTP://localhost:5010/api/contact/${data.id}`,
+           data,
+           {
+             headers: {
+               "Content-Type": "application/json",
+               "x-auth-token": "Bearer " +data.token
+             },
+           })
+           return response.data;
+       
+    }
+   )
    
 
 export const contact = createSlice({
@@ -49,6 +68,8 @@ export const contact = createSlice({
         status:'idle',
         statusAdd:'idle',
         dataAdd:[],
+        statusUpdate:'idle',
+        dataUpdate:null,
         dataDelete:null
     },
     reducers:{

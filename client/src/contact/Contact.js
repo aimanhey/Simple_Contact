@@ -10,7 +10,7 @@ import {
 } from "../features/counter/counterSlice";
 import styles from "../features/counter/Counter.module.css";
 import { useHistory } from "react-router-dom";
-import { contactGet, contactAdd } from "./ContactSlice";
+import { contactGet, contactAdd, contactUpdate } from "./ContactSlice";
 import {
   Form,
   Button,
@@ -35,6 +35,7 @@ export function Contact() {
   const [select, setSelect] = useState("");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const [id, setId] = useState(0);
   const [selected, setSelected] = useState(null);
   //const [selected, setSelected] = useState(0);
   const [incrementAmount, setIncrementAmount] = useState("2");
@@ -52,6 +53,10 @@ export function Contact() {
     if (!checkUser) {
       localStorage.removeItem("user");
       history.push("/login");
+    } else if (statusAdd === "success") {
+      setList([]);
+      setList(list);
+      console.log("GILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAA");
     } else if (status === "success") {
       setList(list);
       //setList(list)}
@@ -62,12 +67,7 @@ export function Contact() {
         history.push("/login");
       }
     }
-
-    if(statusAdd==="success"){
-      setList(list);
-    }
   }, [dispatch, history, list, lists, status, statusAdd]);
-
 
   const listenScrollEvent = (event) => {
     if (window.scrollY < 2) {
@@ -79,33 +79,26 @@ export function Contact() {
 
   window.addEventListener("scroll", listenScrollEvent);
 
-
   const selectionn = (index) => {
     if (selected === index) {
       setSelected(null);
       setSelect(null);
       setName("");
-  } else {
+      setId(0);
+    } else {
       setSelected(index);
       setSelect(lists[index].contact);
       setName(lists[index].contact);
-  }
+      setNumber(lists[index].contactNumber);
+      setId(lists[index]._id);
+    }
   };
   const Senarai = (props) => {
-
-    
     return (
       <div
-        className={
-          props.hook
-            ? "card rounded border-danger"
-            : "cards"
-        }
+        className={props.hook ? "card rounded border-danger" : "cards"}
         style={{ alignItems: "center", marginTop: 30, width: "18rem" }}
-       
-        onClick={() =>
-           props.hooker()
-        }
+        onClick={() => props.hooker()}
         draggable
       >
         <div className="card-body">
@@ -129,7 +122,7 @@ export function Contact() {
           value={data.contact}
           number={data.contactNumber}
           index={index}
-          hook={selected===index}
+          hook={selected === index}
           hooker={() => selectionn(index)}
           // terpilih={selected[index]? 'makan':null}
           //warna={index === selected ? "card rounded border-danger" : "card rounded"}
@@ -137,7 +130,6 @@ export function Contact() {
       );
     });
   //return  <div>saya</div>
-
 
   const nameInserted = (event) => {
     setName(event.target.value);
@@ -148,29 +140,79 @@ export function Contact() {
     setNumber(event.target.value);
     console.log(event.target.value);
   };
-  
-  const sendData = async (e) => {
+
+  const sendData = (e) => {
     e.preventDefault();
-   // console.log(email + "tengok email");
-    let formData = new FormData();
-    formData.append("contact", name);
-    formData.append("phoneNo", number);
-    const gilq=JSON.parse(localStorage.getItem("user"));
-    console.log(gilq.token);
-    const insertData = {
-      contact: name,
-      phoneNo: number,
-      token:gilq.token
-    };
-    // setRegister(insertData);
-    console.log(name);
-    console.log(number);
-    console.log(insertData + "ssh");
-   
-    await dispatch(contactAdd(insertData,JSON.parse(localStorage.getItem("user"))));
-   // console.log(data);
-   window.location.reload(true);
-    console.log("dfadfs");
+    // console.log(email + "tengok email");
+    if (id === 0) {
+      let formData = new FormData();
+      formData.append("contact", name);
+      formData.append("phoneNo", number);
+      const gilq = JSON.parse(localStorage.getItem("user"));
+      console.log(gilq.token);
+      const insertData = {
+        contact: name,
+        phoneNo: number,
+        token: gilq.token,
+      };
+      // setRegister(insertData);
+      //lists.push({"data":{"contact":name,"contactNumber":number}})
+      console.log(lists);
+      console.log(name);
+      console.log(number);
+      console.log(insertData + "ssh");
+
+      dispatch(
+        contactAdd(insertData, JSON.parse(localStorage.getItem("user")))
+      );
+      // setList(list);
+      dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+      setName("");
+      setNumber("");
+      //useEffect();
+      // console.log(data);
+      // window.location.reload(true);
+      // setList(list);
+      console.log("dfadfs");
+    } else {
+      let formData = new FormData();
+      formData.append("contact", name);
+      formData.append("phoneNo", number);
+      const gilq = JSON.parse(localStorage.getItem("user"));
+      formData.append("token", gilq.token);
+      formData.append("id",id);
+      console.log(gilq.token);
+      console.log(id);
+      const insertData = {
+        contact: name,
+        phoneNo: number,
+        token: gilq.token,
+        id:id
+      };
+      // setRegister(insertData);
+      //lists.push({"data":{"contact":name,"contactNumber":number}})
+      console.log(lists);
+      console.log(name);
+      console.log(number);
+      console.log(insertData + "ssh");
+
+      dispatch(
+        contactUpdate(insertData, JSON.parse(localStorage.getItem("user")))
+      );
+      // setList(list);
+      dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+      setName("");
+      setNumber("");
+      setSelected(null);
+      setSelect(null);
+      setName("");
+      setId(0);
+      //useEffect();
+      // console.log(data);
+      // window.location.reload(true);
+      // setList(list);
+      console.log("dfadfs");
+    }
   };
 
   return lists ? (
@@ -207,6 +249,11 @@ export function Contact() {
         </Navbar>
 
         <div className="container color">
+          {statusAdd === "fail" ? (
+            <div className="alert alert-info" role="alert">
+              This is a info alert—check it out!
+            </div>
+          ) : null}
           <div className="jaditak">
             <div className="d-flex justify-content-center">
               <div>
@@ -227,7 +274,7 @@ export function Contact() {
               <div className="col-sm"></div>
               <div className="col-sm-8">
                 <div className=" mt-3 mx-5">
-                  <Form onSubmit={sendData}>
+                  <Form>
                     <Form.Group className="mb-3 ">
                       <Form.Label>Contact Name</Form.Label>
                       <Form.Control
@@ -249,8 +296,13 @@ export function Contact() {
                     </Form.Group>
 
                     <div className="d-flex justify-content-end">
-                      <Button variant="primary" type="submit" className="mx-5">
-                     {  select ?   "Update": "Submit"}
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="mx-5"
+                        onClick={sendData}
+                      >
+                        {select ? "Update" : "Submit"}
                       </Button>
                     </div>
                   </Form>
