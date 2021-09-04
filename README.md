@@ -11,13 +11,19 @@ The basic application tha CRUD implemented within it, which you may __register__
 It was built in powerful backend framework and awesome frontend library. Below are the stack technologies that I use in this development.
 
 >### Backend
->-Expressjs
->-cors
->-mongoose
->-jsonwebtoken
->-express-fileupload
->-bcrypt
->-dotenv
+>- Expressjs
+>
+>- cors
+>
+>- mongoose
+>
+>- jsonwebtoken
+>
+>- express-fileupload
+>
+>- bcrypt
+>
+>- dotenv
 >
 
 
