@@ -37,6 +37,7 @@ export function Contact() {
   const [number, setNumber] = useState("");
   const [id, setId] = useState(0);
   const [selected, setSelected] = useState(null);
+  const [alert, setAlerted] = useState(false);
   //const [selected, setSelected] = useState(0);
   const [incrementAmount, setIncrementAmount] = useState("2");
   const [header, setHeader] = useState(false);
@@ -57,6 +58,8 @@ export function Contact() {
       setList([]);
       setList(list);
       console.log("GILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAA");
+    } else if (statusAdd === "fail") {
+      setAlerted(true);
     } else if (status === "success") {
       setList(list);
       //setList(list)}
@@ -180,14 +183,14 @@ export function Contact() {
       formData.append("phoneNo", number);
       const gilq = JSON.parse(localStorage.getItem("user"));
       formData.append("token", gilq.token);
-      formData.append("id",id);
+      formData.append("id", id);
       console.log(gilq.token);
       console.log(id);
       const insertData = {
         contact: name,
         phoneNo: number,
         token: gilq.token,
-        id:id
+        id: id,
       };
       // setRegister(insertData);
       //lists.push({"data":{"contact":name,"contactNumber":number}})
@@ -213,6 +216,22 @@ export function Contact() {
       // setList(list);
       console.log("dfadfs");
     }
+  };
+
+  const Alert = () => {
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+      let timer1 = setTimeout(() => setShow(true), 1 * 3000);
+      return () => {
+        clearTimeout(timer1);
+      };
+    }, []);
+    return show ? (
+      <div className="alert alert-info" role="alert">
+        This is a info alert—check it out!
+      </div>
+    ) : null;
   };
 
   return lists ? (
@@ -249,11 +268,7 @@ export function Contact() {
         </Navbar>
 
         <div className="container color">
-          {statusAdd === "fail" ? (
-            <div className="alert alert-info" role="alert">
-              This is a info alert—check it out!
-            </div>
-          ) : null}
+          {alert === true ? <Alert /> : null}
           <div className="jaditak">
             <div className="d-flex justify-content-center">
               <div>
