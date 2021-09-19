@@ -59,9 +59,11 @@ export function Contact() {
       setList(list);
       console.log("GILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAA");
     } else if (statusAdd === "fail") {
-      setAlerted(true);
+      
     } else if (status === "success") {
       setList(list);
+      console.log(JSON.parse(localStorage.getItem("user")))
+    
       //setList(list)}
     } else {
       dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
@@ -88,6 +90,7 @@ export function Contact() {
       setSelect(null);
       setName("");
       setId(0);
+      setNumber("");
     } else {
       setSelected(index);
       setSelect(lists[index].contact);
@@ -234,6 +237,14 @@ export function Contact() {
     ) : null;
   };
 
+  const DeleteContact = (props) =>{
+    console.log("ini nak delete")
+    console.log(props.nama)
+    
+   return props.nama ?  (<div> okay lah tu</div>) :  null
+
+  }
+
   return lists ? (
     <Div100vh>
       <div className="bodi">
@@ -268,17 +279,26 @@ export function Contact() {
         </Navbar>
 
         <div className="container color">
-          {alert === true ? <Alert /> : null}
+          {statusAdd === "fail" ? <Alert /> : null}
           <div className="jaditak">
             <div className="d-flex justify-content-center">
               <div>
                 <div className="border rounded px-2 py-4 mx-2 mt-3">
-                  <h1> CONTACTS</h1>
-                  <div className="">
+                  <div className="row">
+                    <div className="col-sm">
+                  <h1> CONTACTS</h1></div>
+                  <div className="col-sm">
+                  <img src={"http://localhost:5000//Users/Acer/Documents/GitHub/ExpressJS_JWT_Bcrypt/controllers/picture/EN7EkKaU8AE1Xdm.jfif"} width="100" height="100" alt={"sfs"}/>
+                  </div>
+                  </div>
+                  <div className="mx-4">
+                 
                     <Box />
                     {/*   <div ref={hoverRef}>{isHovered ? "😁" : "☹️"}</div>;*/}
                     {select ? select : null}
+                    <DeleteContact nama={select}/>
                     {deleted}
+                  
                   </div>
                 </div>
               </div>
@@ -294,7 +314,7 @@ export function Contact() {
                       <Form.Label>Contact Name</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter Name"
+                        placeholder="Enter Name "
                         value={name}
                         onChange={nameInserted}
                       />

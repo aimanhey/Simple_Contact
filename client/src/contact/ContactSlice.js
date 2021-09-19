@@ -59,6 +59,23 @@ export const contactAdd = createAsyncThunk(
        
     }
    )
+   export const contactDelete = createAsyncThunk(
+    'contact/contactDelete',  async (data,datas)=>{
+        console.log(JSON.stringify(data));
+        console.log(datas.token);
+       
+       const response= await  axios.delete(
+           `HTTP://localhost:5010/api/contact/${data.id}`,
+           {
+             headers: {
+               "Content-Type": "application/json",
+               "x-auth-token": "Bearer " +data.token
+             },
+           })
+           return response.data;
+       
+    }
+   )
    
 
 export const contact = createSlice({
