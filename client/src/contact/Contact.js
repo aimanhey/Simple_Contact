@@ -10,7 +10,7 @@ import {
 } from "../features/counter/counterSlice";
 import styles from "../features/counter/Counter.module.css";
 import { useHistory } from "react-router-dom";
-import { contactGet, contactAdd, contactUpdate } from "./ContactSlice";
+import { contactGet, contactAdd, contactUpdate, contactDelete } from "./ContactSlice";
 import {
   Form,
   Button,
@@ -63,6 +63,7 @@ export function Contact() {
     } else if (status === "success") {
       setList(list);
       console.log(JSON.parse(localStorage.getItem("user")))
+      console.log(deleted +"pou")
     
       //setList(list)}
     } else {
@@ -241,8 +242,28 @@ export function Contact() {
     console.log("ini nak delete")
     console.log(props.nama)
     
-   return props.nama ?  (<div> okay lah tu</div>) :  null
+   return props.nama ?  (<div onClick={() => props.delete()}> okay lah tu</div>) :  null
 
+  }
+
+  const deleteting = (id)=>{
+    const gilq = JSON.parse(localStorage.getItem("user"));
+    const insertData = {
+      token: gilq.token,
+      id: id,
+    };
+    dispatch(
+      contactDelete(insertData)
+    );
+  dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+      setName("");
+      setNumber("");
+      setSelected(null);
+      setSelect(null);
+      setName("");
+      setId(0);
+    console.log("nyaaaa")
+    console.log(id)
   }
 
   return lists ? (
@@ -296,8 +317,8 @@ export function Contact() {
                     <Box />
                     {/*   <div ref={hoverRef}>{isHovered ? "😁" : "☹️"}</div>;*/}
                     {select ? select : null}
-                    <DeleteContact nama={select}/>
-                    {deleted}
+                    <DeleteContact nama={select} delete={() => deleteting(id)} />
+                  
                   
                   </div>
                 </div>
