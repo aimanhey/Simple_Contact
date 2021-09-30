@@ -255,7 +255,7 @@ export function Contact() {
     dispatch(
       contactDelete(insertData)
     );
-  dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+  //dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
       setName("");
       setNumber("");
       setSelected(null);

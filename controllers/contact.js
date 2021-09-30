@@ -51,9 +51,10 @@ router.route("/:id").delete(protect, (req, res, next) => {
   const post = req.params.id;
 
   console.log("sbjjdbdaad");
-  const contact = Contact.findById(post);
+  const contact = Contact.findById({_id:post});
 
   if (contact) {
+    console.log(contact)
     contact.remove();
     res.json({ message: "contact removed" });
   } else {
