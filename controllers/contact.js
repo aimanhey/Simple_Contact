@@ -50,17 +50,25 @@ router.route("/addContact").post(protect, (req, res, next) => {
 router.route("/:id").delete(protect, (req, res, next) => {
   const post = req.params.id;
 
+  console.log(post)
   console.log("sbjjdbdaad");
-  const contact = Contact.findById({_id:post});
+  Contact.findById({_id:post},(err, contact) => {
 
-  if (contact) {
-    console.log(contact)
-    contact.remove();
-    res.json({ message: "contact removed" });
-  } else {
-    res.status(404);
-    throw new Error("contact not found");
-  }
+    if(contact){
+      contact.remove((err, user) => {
+        if (err) {
+          return res.status(401).send({ error: "Something wrong" });
+        }
+
+        res.status(200).send({
+          success: true,
+          msg: `The contact for ${post} has been removed!`,
+        });
+      });}
+    }
+  );
+
+  
 });
 
 router.route("/:id").put(protect, (req, res, next) => {
