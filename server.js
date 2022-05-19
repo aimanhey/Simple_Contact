@@ -14,7 +14,7 @@ app.use(fileUpload());
 const port = process.env.PORT || 5010;
 const ip = "0.0.0.0";
 
-const uri = process.env.DATABASE
+const uri = process.env.ATLAS_URI
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once("open", () => {

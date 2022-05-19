@@ -10,7 +10,12 @@ import {
 } from "../features/counter/counterSlice";
 import styles from "../features/counter/Counter.module.css";
 import { useHistory } from "react-router-dom";
-import { contactGet, contactAdd, contactUpdate, contactDelete } from "./ContactSlice";
+import {
+  contactGet,
+  contactAdd,
+  contactUpdate,
+  contactDelete,
+} from "./ContactSlice";
 import {
   Form,
   Button,
@@ -38,6 +43,7 @@ export function Contact() {
   const [id, setId] = useState(0);
   const [selected, setSelected] = useState(null);
   const [alert, setAlerted] = useState(false);
+  const [failCount, setFailCount] = useState(0);
   //const [selected, setSelected] = useState(0);
   const [incrementAmount, setIncrementAmount] = useState("2");
   const [header, setHeader] = useState(false);
@@ -58,13 +64,11 @@ export function Contact() {
       setList([]);
       setList(list);
       console.log("GILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAA");
-    } else if (statusAdd === "fail") {
-      
     } else if (status === "success") {
       setList(list);
-      console.log(JSON.parse(localStorage.getItem("user")))
-      console.log(deleted +"pou")
-    
+      console.log(JSON.parse(localStorage.getItem("user")));
+      console.log(deleted + "pou");
+
       //setList(list)}
     } else {
       dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
@@ -73,7 +77,28 @@ export function Contact() {
         history.push("/login");
       }
     }
-  }, [dispatch, history, list, lists, status, statusAdd]);
+  }, [deleted, dispatch, failCount, history, list, lists, status, statusAdd]);
+
+  useEffect(() => {
+    const h = async () => {
+      if (statusAdd === "fail") {
+        setFailCount((prevState) => 0);
+        const dh = await setTimeout(
+          () => setFailCount((prevState) => prevState + 1),
+          3000
+        );
+        console.log("masuukkk");
+        setList(list);
+        /// setFailCount((prevState)=>prevState+1)
+        return () => {
+          clearTimeout(dh);
+        };
+      }
+    };
+    h();
+  }, [list, statusAdd]);
+
+  console.log(failCount);
 
   const listenScrollEvent = (event) => {
     if (window.scrollY < 2) {
@@ -222,154 +247,163 @@ export function Contact() {
     }
   };
 
-  const Alert = () => {
-    const [show, setShow] = useState(false);
+  const Alert = (props) => {
+    const [show, setShow] = useState(true);
 
     useEffect(() => {
-      let timer1 = setTimeout(() => setShow(true), 1 * 3000);
-      return () => {
+      if (show) {
+        let timer1 = setTimeout(async () => await setShow(false), 1 * 3000);
+        props.failCount(1);
         clearTimeout(timer1);
-      };
-    }, []);
+      } else {
+      }
+    }, [props, show]);
     return show ? (
-      <div className="alert alert-info" role="alert">
+      <div className="alert alert-danger" role="alert">
         This is a info alert—check it out!
       </div>
     ) : null;
   };
 
-  const DeleteContact = (props) =>{
-    console.log("ini nak delete")
-    console.log(props.nama)
-    
-   return props.nama ?  (<div onClick={() => props.delete()}> okay lah tu</div>) :  null
+  const DeleteContact = (props) => {
+    console.log("ini nak delete");
+    console.log(props.nama);
 
-  }
+    return props.nama ? (
+      <div onClick={() => props.delete()}> okay lah tu</div>
+    ) : null;
+  };
 
-  const deleteting = (id)=>{
+  const deleteting = (id) => {
     const gilq = JSON.parse(localStorage.getItem("user"));
     const insertData = {
       token: gilq.token,
       id: id,
     };
-    dispatch(
-      contactDelete(insertData)
-    );
-  dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
-      setName("");
-      setNumber("");
-      setSelected(null);
-      setSelect(null);
-      setName("");
-      setId(0);
-    console.log("nyaaaa")
-    console.log(id)
-  }
+    dispatch(contactDelete(insertData));
+    dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+    setName("");
+    setNumber("");
+    setSelected(null);
+    setSelect(null);
+    setName("");
+    setId(0);
+    console.log("nyaaaa");
+    console.log(id);
+  };
 
   return lists ? (
-    <Div100vh>
-      <div className="bodi">
-        <Navbar
-          expand="lg"
-          sticky="top"
-          className={header ? "navbar2 active" : "navbar2"}
-        >
-          <Container>
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="navbarScroll">
-              <Nav className="me-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">
-                    Something
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
-                    Separated link
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+    <div className="bodi">
+      <Navbar
+        expand="lg"
+        sticky="top"
+        className={header ? "navbar2 active" : "navbar2"}
+      >
+        <Container>
+          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav className="me-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+              <Nav.Link href="#link">Link</Nav.Link>
+              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">
+                  Something
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  Separated link
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
-        <div className="container color">
-          {statusAdd === "fail" ? <Alert /> : null}
-          <div className="jaditak">
-            <div className="d-flex justify-content-center">
-              <div>
-                <div className="border rounded px-2 py-4 mx-2 mt-3">
-                  <div className="row">
-                    <div className="col-sm">
-                  <h1> CONTACTS</h1></div>
+      <div className="container color">
+        {statusAdd === "fail" && failCount === 0 && (
+          <Alert
+            setFailCount={failCount}
+            failCount={() => setFailCount(failCount)}
+          />
+        )}
+        <div className="jaditak">
+          <div className="d-flex justify-content-center">
+            <div>
+              <div className="border rounded px-2 py-4 mx-2 mt-3">
+                <div className="row">
                   <div className="col-sm">
-                  <img src={"http://localhost:5000//Users/Acer/Documents/GitHub/ExpressJS_JWT_Bcrypt/controllers/picture/EN7EkKaU8AE1Xdm.jfif"} width="100" height="100" alt={"sfs"}/>
+                    <h1> CONTACTS</h1>
                   </div>
-                  </div>
-                  <div className="mx-4">
-                 
-                    <Box />
-                    {/*   <div ref={hoverRef}>{isHovered ? "😁" : "☹️"}</div>;*/}
-                    {select ? select : null}
-                    <DeleteContact nama={select} delete={() => deleteting(id)} />
-                  
-                  
+                  <div className="col-sm">
+                    <img
+                      src={
+                        "http://localhost:5000//Users/Acer/Documents/GitHub/ExpressJS_JWT_Bcrypt/controllers/picture/EN7EkKaU8AE1Xdm.jfif"
+                      }
+                      width="100"
+                      height="100"
+                      alt={"sfs"}
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="container utah">
-            <div className="row">
-              <div className="col-sm"></div>
-              <div className="col-sm-8">
-                <div className=" mt-3 mx-5">
-                  <Form>
-                    <Form.Group className="mb-3 ">
-                      <Form.Label>Contact Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Name "
-                        value={name}
-                        onChange={nameInserted}
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3 ">
-                      <Form.Label>Contact Number</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Number"
-                        value={number}
-                        onChange={numberInserted}
-                      />
-                    </Form.Group>
-
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        className="mx-5"
-                        onClick={sendData}
-                      >
-                        {select ? "Update" : "Submit"}
-                      </Button>
-                    </div>
-                  </Form>
+                <div className="mx-4">
+                  <Box />
+                  {/*   <div ref={hoverRef}>{isHovered ? "😁" : "☹️"}</div>;*/}
+                  {select ? select : null}
+                  <DeleteContact nama={select} delete={() => deleteting(id)} />
                 </div>
               </div>
-              <div className="col-sm"></div>
             </div>
           </div>
         </div>
+        <div className="container utah">
+          <div className="row">
+            <div className="col-sm"></div>
+            <div className="col-sm-8">
+              <div className=" mt-3 mx-5">
+                <Form>
+                  <Form.Group className="mb-3 ">
+                    <Form.Label>Contact Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Name "
+                      value={name}
+                      onChange={nameInserted}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3 ">
+                    <Form.Label>Contact Number</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Number"
+                      value={number}
+                      onChange={numberInserted}
+                    />
+                  </Form.Group>
+
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="mx-5"
+                      onClick={sendData}
+                    >
+                      {select ? "Update" : "Submit"}
+                    </Button>
+                  </div>
+                </Form>
+              </div>
+            </div>
+            <div className="col-sm"></div>
+          </div>
+        </div>
       </div>
-    </Div100vh>
+    </div>
   ) : (
     ((<div>makan</div>),
     (

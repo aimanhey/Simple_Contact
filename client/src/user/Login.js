@@ -43,9 +43,14 @@ export const Login = () => {
   const status = useSelector((state) => state.userLogin.status);
   const statusC = useSelector((state) => state.contact.status);
   const [notify, setNotify] = useState("");
+  const [countt,setCountt]=useState(0);
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   useEffect(() => {
-    console.log(status);
+    async function ber(){
+      console.log(status);
     console.log(data);
     if (status === "success") {
       localStorage.setItem("user", JSON.stringify(data));
@@ -58,12 +63,21 @@ export const Login = () => {
       } else {
         // localStorage.removeItem("user");
       }
-    } else if (status === "fail") {
-      setNotify("You may put wrong input");
+    } else if (status === "fail" && countt===0) {
+      setNotify("You may put wrong input")
+      await sleep(3000)
+      setNotify("")
+      setCountt((prevState)=>prevState+1)
+
+
+      
     } else {
       localStorage.removeItem("user");
     }
-  }, [history, data, status, dispatch, statusC]);
+
+    }
+    ber();
+  }, [history, data, status, dispatch, statusC, notify, countt]);
 
   const emailInserted = (event) => {
     setEmail(event.target.value);
@@ -120,7 +134,7 @@ export const Login = () => {
             top: "50%",
             transform: "translate(-50%, -50%)",
             float: "left",
-            display: "inline",
+            display: "block",
             boxShadow: "5px 5px 5px 5px #aaaaaa",
             borderRadius: "15px",
             borderColor: "black",
