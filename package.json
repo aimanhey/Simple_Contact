@@ -21,7 +21,7 @@
     "immer": "^9.0.6",
     "ini": ">=1.3.6",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.16",
+    "mongoose": "^8.8.3",
     "mquery": ">=3.2.3"
   }
 }
