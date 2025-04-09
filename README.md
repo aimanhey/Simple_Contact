@@ -29,6 +29,11 @@ It was built in powerful backend framework and awesome frontend library. Below a
 ### Login
 ![React Redux App - Work - Microsoft_ Edge 2025-04-09 13-54-28 - Trim](https://github.com/user-attachments/assets/b231ecab-0aa7-407f-a264-5ab3008fa46c)
 
+### Register
+![React Redux App - Work - Microsoft_ Edge 2025-04-09 14-11-19 - Trim](https://github.com/user-attachments/assets/ef5bdabc-d3fc-451c-89ff-ada2ca4459eb)
+
+
+
 
 
 
