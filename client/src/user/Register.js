@@ -8,7 +8,7 @@ import "../App.css";
 //import "./Register.css";
 import { useSpring, animated } from "react-spring";
 import { createUser } from "./RegisterSlice";
-import { useHistory } from "react-router-dom";
+import { useHistory ,useLocation } from "react-router-dom";
 
 //import { CSSTransitionGroup } from 'react-transition-group';
 //import { fetchContactById, status } from "./ContactSlice";
@@ -16,6 +16,10 @@ import { useHistory } from "react-router-dom";
 export const Register = () => {
   const dispatch = useDispatch();
   let history = useHistory();
+  let location = useLocation();
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   const propsform = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 },
@@ -47,13 +51,42 @@ export const Register = () => {
   useEffect(() => {
     console.log(status);
     console.log(data);
+    async function red(){
+    if (localStorage.getItem("user")){
+      localStorage.removeItem("user");
+    }
     if (status === "success") {
         localStorage.setItem('user', data)
       history.push("/");
     } else if (status === "fail") {
-      setNotify("You may put wrong input");
+      setNotify("You put wrong input");
+      await sleep(500); 
+      setNotify("");
+     console.log(data.error)
     } else {
-    }
+    }}
+    red();
+
+    // const user = localStorage.getItem("user");
+    // if (!user) {
+    //   localStorage.removeItem("user");
+    //   history.push("/login");
+    //   return;
+    // }
+
+    // (async () => {
+    //   try {
+    //     await dispatch(verifyAuth(JSON.parse(user))).unwrap();
+    //     if( status == 'fail'){
+    //       localStorage.removeItem("user");
+    //       history.push("/login");
+    //     }
+    //   } catch (error) {
+    //     // Handle token expiry or auth errors by redirecting to login
+    //     localStorage.removeItem("user");
+    //     history.push("/login");
+    //   }
+    // })();
   }, [history, data, status]);
 
   const emailInserted = (event) => {
@@ -101,8 +134,11 @@ export const Register = () => {
     };
     // setRegister(insertData);
     console.log(insertData + "ssh");
-    await dispatch(createUser(formData));
-    console.log(data);
+    try {
+      await dispatch(createUser(insertData)).unwrap();
+  } catch (error) {
+      console.error("Registration error:", error.response?.data || error.message);
+  }
     console.log("dfadfs");
   };
 
@@ -129,7 +165,7 @@ export const Register = () => {
       ) : (
         <>
           {notify ? (
-            <Fade in timeout={10}>
+            <Fade in timeout={1}>
               <div className="alert alert-danger" role="alert">
                 {notify}
               </div>

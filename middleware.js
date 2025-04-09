@@ -22,7 +22,8 @@ console.log(tokenss)
       }
     } catch (error) {
       console.error(error);
-      res.status(401);
+      console.log('testtttt jwt')
+      res.status(401).json({ error: error.message });
       throw new Error("Not authorized, token failed");
     }
   }
