@@ -9,6 +9,7 @@
 }
 
 $card-shadow-hover: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+$card-shadow-hover1: 0 14px 28px rgba(0, 0, 0, 0.884), 0 10px 10px rgba(0, 0, 0, 0.774);
 .navbar2{
     background-color: transparent;
 }
@@ -18,14 +19,33 @@ $card-shadow-hover: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .cards{
-   // border-top-right-radius: 25px;
+   border-top-right-radius: 25px;
+   border-width: 3px;
+   border-color: green($color: #000000);
    border-radius: 5px;
    background-color: white;
    align-content:center ;
    text-align:center;
+   border-style:outset;
     &:hover{
       box-shadow: $card-shadow-hover;
     }
+    &::before{
+        box-shadow: $card-shadow-hover;
+    }
+}
+.cards_click{
+    border-top-right-radius: 25px;
+    border-width: 3px;
+    border-color: green($color: #000000);
+    border-radius: 5px;
+    background-color: white;
+    align-content:center ;
+    text-align:center;
+    border-style:outset;
+    box-shadow: $card-shadow-hover1;
+       
+       
     
 
 }

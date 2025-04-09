@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Contact = require("../models/contact");
 const protect = require("../middleware.js");
+//const { contact } = require("../client/src/contact/ContactSlice.js");
 
 router.route("/").get((req, res) => {
   console.log("ada baca");
@@ -18,7 +19,7 @@ router.route("/listAll").get(protect, (req, res, next) => {
 });
 
 // Add contact
-router.route("/addContact").post(protect, (req, res, next) => {
+router.route("/addContact").post(protect, async(req, res, next) => {
   const post = req.body.contact;
   const id = req.user;
   const phoneNumber = req.body.phoneNo;
@@ -36,70 +37,129 @@ router.route("/addContact").post(protect, (req, res, next) => {
     contactNumber: phoneNumber,
   });
 
-  contactDetails.save((err, user) => {
-    if (err) {
-      return res.status(401).send({ error: "Put your post here" });
-    }
+  try{
+    const contactSaved = await contactDetails.save()
+    res.status(200).send({
+      success: true,
+      msg: `The contact for ${post} has been saved!`,
+    });
+  }catch (err) {
+    console.error("Error fetching user:", err.message);
+    return res.status(422).send({ error: err.message });
+  }
 
-    res
-      .status(200)
-      .send({ success: true, msg: `The contact for ${post} has been saved!` });
-  });
+  // contactDetails.save((err, user) => {
+  //   if (err) {
+  //     return res.status(401).send({ error: "Put your post here" });
+  //   }
+
+  //   res
+  //     .status(200)
+  //     .send({ success: true, msg: `The contact for ${post} has been saved!` });
+  // });
 });
 
-router.route("/:id").delete(protect, (req, res, next) => {
+router.route("/:id").delete(protect, async(req, res, next) => {
   const post = req.params.id;
+  let contact;
 
   console.log(post)
   console.log("sbjjdbdaad");
-  Contact.findById({_id:post},(err, contact) => {
 
-    if(contact){
-      contact.remove((err, user) => {
-        if (err) {
-          return res.status(401).send({ error: "Something wrong" });
-        }
+  try{
+    contact = await Contact.findById({_id: post})
+  }
+  catch (err) {
+    console.error("Error fetching user:", err.message);
+    return res.status(422).send({ error: err.message });
+  }
 
-        res.status(200).send({
-          success: true,
-          msg: `The contact for ${post} has been removed!`,
-        });
-      });}
-    }
-  );
+  try{
+    contactDeleted = await contact.deleteOne();
+    console.log('test')
+    res.status(200).send({
+      success: true,
+      msg: `The contact for ${post} has been removed!`,
+    });
+  }
+  catch(err){
+    console.log(err+"test")
+    return res.status(401).send({ error: `Something wrong ${err}` });
+  }
+  // Contact.findById({_id:post},(err, contact) => {
+
+  //   if(contact){
+  //     contact.remove((err, user) => {
+  //       if (err) {
+  //         return res.status(401).send({ error: "Something wrong" });
+  //       }
+
+  //       res.status(200).send({
+  //         success: true,
+  //         msg: `The contact for ${post} has been removed!`,
+  //       });
+  //     });}
+  //   }
+  // );
 
   
 });
 
-router.route("/:id").put(protect, (req, res, next) => {
+router.route("/:id").put(protect, async (req, res, next) => {
   const post = req.params.id;
+  let contact;
 
   console.log("update");
-  Contact.findById({ _id: post }, (err, contact) => {
-    if (contact) {
-      contact.contact = req.body.contact || contact.contact;
-      contact.id = contact.id;
-      contact.contactNumber = req.body.phoneNo || contact.contactNumber;
-      // contact.image = req.image;
-      /*
-    contact.save();
-    res.json({ message: "contact updated" });
-  } else {
-    res.status(404);
-    throw new Error("contact not found");
-  }*/
+  try{
+    contact = await Contact.findById({_id: post})
+  }
+  catch (err) {
+    console.error("Error fetching user:", err.message);
+    return res.status(422).send({ error: err.message });
+  }
 
-      contact.save((err, user) => {
-        if (err) {
-          return res.status(401).send({ error: "Something wrong" });
-        }
+  if (contact) {
+    contact.contact = req.body.contact || contact.contact;
+    contact.id = contact.id;
+    contact.contactNumber = req.body.phoneNo || contact.contactNumber;
+  }
 
-        res.status(200).send({
-          success: true,
-          msg: `The contact modify for ${post} has been saved!`,
-        });
-      });
-    }
-  });
+  try{
+    const contactSaved = await contact.save()
+    res.status(200).send({
+      success: true,
+      msg: `The contact for ${post} has been updated!`,
+    });
+  }catch (err) {
+    console.error("Error fetching user:", err.message);
+    return res.status(422).send({ error: err.message });
+  }
+  
+  // Contact.findById({ _id: post }, (err, contact) => {
+  //   if (contact) {
+  //     contact.contact = req.body.contact || contact.contact;
+  //     contact.id = contact.id;
+  //     contact.contactNumber = req.body.phoneNo || contact.contactNumber;
+  //     // contact.image = req.image;
+  //     /*
+  //   contact.save();
+  //   res.json({ message: "contact updated" });
+  // } else {
+  //   res.status(404);
+  //   throw new Error("contact not found");
+  // }*/
+
+  //     contact.save((err, user) => {
+  //       if (err) {
+  //         return res.status(401).send({ error: "Something wrong" });
+  //       }
+
+  //       res.status(200).send({
+  //         success: true,
+  //         msg: `The contact modify for ${post} has been saved!`,
+  //       });
+  //     });
+  //   }
+  // });
 });
 module.exports = router;

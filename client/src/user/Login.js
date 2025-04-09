@@ -10,6 +10,7 @@ import { useSpring, animated } from "react-spring";
 import { loginUser } from "./LoginSlice";
 import { useHistory } from "react-router-dom";
 import { contactGet } from "../contact/ContactSlice";
+import { ToastContainer, toast } from 'react-toastify';
 
 //import { CSSTransitionGroup } from 'react-transition-group';
 //import { fetchContactById, status } from "./ContactSlice";
@@ -56,16 +57,21 @@ export const Login = () => {
       localStorage.setItem("user", JSON.stringify(data));
       history.push("/");
     } else if (localStorage.getItem("user")) {
-      dispatch(contactGet(JSON.parse(localStorage.getItem("user"))));
+      await dispatch(contactGet(JSON.parse(localStorage.getItem("user")))).unwrap();
       console.log(JSON.parse(localStorage.getItem("user")));
       if (statusC === "success") {
+        console.log('test');
         history.push("/");
+        console.log(statusC);
       } else {
         // localStorage.removeItem("user");
       }
     } else if (status === "fail" && countt===0) {
-      setNotify("You may put wrong input")
-      await sleep(3000)
+      setNotify("Username and password is incorrect")
+      toast.success("Success Notification !", {
+        position: "top-right"
+      });
+      await sleep(500)
       setNotify("")
       setCountt((prevState)=>prevState+1)
 
@@ -100,7 +106,9 @@ export const Login = () => {
       password: password,
     };
     // setRegister(insertData);
-    console.log(insertData + "ssh");
+    console.log(insertData);
+    console.log('Lets see')
+    console.log(formData.values());
     await dispatch(loginUser(formData));
     console.log(data);
     console.log("dfadfs");
@@ -114,7 +122,7 @@ export const Login = () => {
         height: "auto",
       }}
     >
-      {status === "loading" ? (
+      {status === "loadingg" ? (
         <Spinner
           style={{
             position: "absolute",
@@ -142,11 +150,12 @@ export const Login = () => {
           }}
           className="mx-auto"
         >
+          
           <animated.div style={propsHeader}>
             <div className="mt-2">
             <h1 style={{ textAlign: "center" }}>Login</h1>
             </div>
-            {notify ? notify : null}
+            <div style={{textAlign:"center", backgroundColor:"red", color:"white"}}>{notify ? notify : null}</div>
           </animated.div>
 
           <animated.div style={propsform}>
@@ -181,9 +190,11 @@ export const Login = () => {
                 </Form.Group>
 
                 <div style={{ height: 30 }}></div>
+                
                 <Button variant="primary" type="submit">
                   Submit
                 </Button>
+                <div style={{textAlign: "center", marginTop:20}}><a style={{ textDecoration: "none", textAlign: "center"}} href="/register">Register if no account yet</a></div>
               </Form>
             </div>
           </animated.div>
